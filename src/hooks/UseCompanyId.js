@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import utilService from "../utilService";
+
 
 export default function useCompanyId() {
   const [empresaId, setEmpresaId] = useState(null);
+  const apiUrl = utilService.getURlAPI();
 
   useEffect(() => {
     const userId = localStorage.getItem("id");
     console.log("User ID do localStorage:", userId);
 
-    axios.get(`https://zippydelivery-v2-latest.onrender.com/api/empresa`)
+    axios.get(`${apiUrl}/api/empresa`)
       .then(response => {
         const empresas = response.data; 
 
