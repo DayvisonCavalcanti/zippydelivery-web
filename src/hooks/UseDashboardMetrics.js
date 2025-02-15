@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { get, ref } from "firebase/database";
 import { db } from "../firebase";
-
 import useCompanyId from "./UseCompanyId";
+
 const useDashboardMetrics = () => {
   const [vendasTotais, setVendasTotais] = useState(0);
   const [faturamentoTotal, setFaturamentoTotal] = useState(0);
@@ -16,8 +16,8 @@ const useDashboardMetrics = () => {
     Dinheiro: 0,
     Outros: 0,
   });
-  const [faturamentoUltimos7Dias, setFaturamentoUltimos7Dias] = useState(0);
-  const [pedidosUltimos7Dias, setPedidosUltimos7Dias] = useState(0);
+  const [faturamentoUltimos7Dias, setFaturamentoUltimos7Dias] = useState([]);
+  const [pedidosUltimos7Dias, setPedidosUltimos7Dias] = useState([]);
 
   const empresaId = useCompanyId();
   const firebaseUrl = "pedidos";
@@ -45,25 +45,19 @@ const useDashboardMetrics = () => {
             Dinheiro: 0,
             Outros: 0,
           };
-          let faturamentoUltimos7Dias = 0;
-          let pedidosUltimos7Dias = 0;
+          let faturamentoUltimos7Dias = Array(7).fill(0);
+          let pedidosUltimos7Dias = Array(7).fill(0);
 
           const hoje = new Date().toISOString().split("T")[0];
           const seteDiasAtras = new Date();
           seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
           const dataSeteDiasAtras = seteDiasAtras.toISOString().split("T")[0];
 
-          // Log para inspecionar os pedidos
-          console.log("Pedidos data:", pedidos);
-
           Object.entries(pedidos).forEach(([id, pedido]) => {
-            console.log("Processing pedido:", pedido);
-
             if (pedido.empresa?.id === empresaId) {
               totalPedidos += 1;
               totalFaturamento += pedido.valorTotal || 0;
 
-              // Contabilizar pedidos por tipo de pagamento
               if (pedido.formaPagamento) {
                 pedidosPorTipoPagamento[pedido.formaPagamento] =
                   (pedidosPorTipoPagamento[pedido.formaPagamento] || 0) + 1;
@@ -75,23 +69,16 @@ const useDashboardMetrics = () => {
                 faturamentoHoje += pedido.valorTotal || 0;
               }
 
-              // Faturamento e número de pedidos nos últimos 7 dias
-              if (dataPedido >= dataSeteDiasAtras) {
-                pedidosUltimos7Dias += 1;
-                faturamentoUltimos7Dias += pedido.valorTotal || 0;
+              const diasAtras = Math.floor(
+                (new Date(hoje) - new Date(dataPedido)) / (1000 * 60 * 60 * 24)
+              );
+
+              if (diasAtras >= 0 && diasAtras < 7) {
+                pedidosUltimos7Dias[diasAtras] += 1;
+                faturamentoUltimos7Dias[diasAtras] += pedido.valorTotal || 0;
               }
             }
           });
-
-          console.log(
-            "Pedidos por Tipo de Pagamento:",
-            pedidosPorTipoPagamento
-          );
-          console.log(
-            "Faturamento nos Últimos 7 Dias:",
-            faturamentoUltimos7Dias
-          );
-          console.log("Pedidos nos Últimos 7 Dias:", pedidosUltimos7Dias);
 
           setVendasTotais(totalPedidos);
           setFaturamentoTotal(totalFaturamento);

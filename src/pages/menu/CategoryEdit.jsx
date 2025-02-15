@@ -37,7 +37,7 @@ export default function CategoryEditPage() {
 
     if (categoryId === undefined) {
       axios.post('https://zippydelivery-v2-latest.onrender.com/api/categoria-produto', productCategoryRequest, header)
-        .then(response => {
+      .then(response => {
           navigate('/menu-manager');
         })
         .catch(error => { 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import utilService from '../../utilService';
+import useCompanyId from '../../hooks/UseCompanyId';
 
 export default function MenuManagerPage() {
   let navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function MenuManagerPage() {
   const [produtoSearch, setProdutoSearch] = useState([]);
   const [produtos, setProdutos] = useState([]);
   
-  var idEmpresa = localStorage.getItem("id")
+  var idEmpresa = useCompanyId();
   var token = localStorage.getItem("token")
   var header = { headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } };
 

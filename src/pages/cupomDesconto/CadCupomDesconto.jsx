@@ -83,30 +83,28 @@ export default function CadCupomDesconto() {
   return (
     <div className="flex h-full justify-center pt-44 px-16 bg-white">
       <div className="flex flex-col gap-10 w-full pb-44">
-        {/* Info Session */}
         <div className="flex flex-col gap-5">
-          <span className="text-2xl font-semibold">
+          <span className="text-4xl font-bold mb-8">
             Cadastro de Cupom de Desconto
           </span>
-          {/* Form rows*/}
           <div className="flex flex-col gap-4">
             <div className="flex gap-4">
               <div className="flex flex-col w-full gap-1">
-                <span>Codigo</span>
+                <span>Código</span>
                 <input
                   value={codigoDesconto}
                   onChange={(e) => setCodigoDesconto(e.target.value)}
-                  placeholder="Codigo do cupom"
+                  placeholder="CODIGO10"
                   className="form-input"
                   type="text"
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
-                <span>Percentual do desconto</span>
+                <span>Percentual de desconto</span>
                 <input
                   value={percentualDesconto}
                   onChange={(e) => setPercentualDesconto(e.target.value)}
-                  placeholder="Percetual do desconto"
+                  placeholder="70"
                   className="form-input"
                   type="text"
                 />
@@ -116,23 +114,23 @@ export default function CadCupomDesconto() {
           <div className="flex flex-col gap-4">
             <div className="flex gap-4">
               <div className="flex flex-col w-full gap-1">
-                <span>Valor Desconto</span>
+                <span>Valor de desconto</span>
                 <input
                   value={valorDesconto}
                   onChange={(e) => setValorDesconto(e.target.value)}
-                  placeholder="Valor do Desconto"
+                  placeholder="50"
                   className="form-input"
                   type="text"
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
-                <span>Valor minino de Pedido</span>
+                <span>Valor mínimo</span>
                 <input
                   value={valorMinimoPedidoPermitido}
                   onChange={(e) =>
                     setValorMinimoPedidoPermitido(e.target.value)
                   }
-                  placeholder="Valor minino de pedidos"
+                  placeholder="10"
                   className="form-input"
                   type="text"
                 />
@@ -142,7 +140,7 @@ export default function CadCupomDesconto() {
           <div className="flex flex-col gap-4">
             <div className="flex gap-4">
               <div className="flex flex-col w-full gap-1">
-                <span>Inicio de vigencia</span>
+                <span>Inicio de vigêcia</span>
                 <input
                   value={inicioVigencia}
                   onChange={(e) => setInicioVigencia(e.target.value)}
@@ -152,7 +150,7 @@ export default function CadCupomDesconto() {
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
-                <span>Fim da vigencia</span>
+                <span>Fim da vigência</span>
                 <input
                   value={fimVigencia}
                   onChange={(e) => setFimVigencia(e.target.value)}
@@ -162,11 +160,11 @@ export default function CadCupomDesconto() {
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
-                <span>Quantidade Maxima de uso</span>
+                <span>Quantidade máxima de uso</span>
                 <input
                   value={quantidadeMaximaUso}
                   onChange={(e) => setQuantidadeMaximaUso(e.target.value)}
-                  placeholder="Quantidade Maxima"
+                  placeholder="100"
                   className="form-input"
                   type="text"
                 />

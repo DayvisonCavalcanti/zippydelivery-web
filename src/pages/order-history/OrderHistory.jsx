@@ -128,8 +128,8 @@ export default function OrderHistoryPage() {
       <div className="flex flex-col gap-5 mx-auto max-w-5xl pb-44">
         <div className="flex justify-between">
           <div className="flex flex-col gap-10">
-            <span className="text-5xl font-regular text-gray-800">
-              Histórico de pedidos
+            <span className="text-5xl font-bold text-gray-800">
+              Histórico de Pedidos
             </span>
             <span className="text-secondary max-w-xl">
               Seu histórico de pedidos é o registro de todas as interações com
@@ -153,10 +153,10 @@ export default function OrderHistoryPage() {
               </svg>
             </div>
             <div className="flex-col">
-              <span className="flex items-center gap-1 text-xl text-green-500">
+              <span className="flex items-center gap-1 text-xl text-green-500 font-bold">
                 Restaurante Aberto
               </span>
-              <span className="text-gray-500">
+              <span className="text-gray-500 font-semibold">
                 Dentro do horário programado
               </span>
             </div>

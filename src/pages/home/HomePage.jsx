@@ -3,14 +3,23 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import utilService from "../../utilService";
 import useNewPedidoNotification from "../../hooks/UseNewPedidoNotification";
-import useDashboardMetrics from "../../hooks/UseDashboardMetrics";
-import generateReportWithCharts from "../components/generatePDF";
+import useDashboardMetrics from "../../hooks/useDashboardMetrics";
+import GenerateReport from "../components/generatePDF";
 
 function HomePage() {
   const [empresaId, setEmpresaId] = useState();
   const [empresaNome, setEmpresaNome] = useState("");
   const [empresaImgPerfil, setEmpresaImgPerfil] = useState("");
   const [empresaDesc, setEmpresaDesc] = useState("");
+  let navigate = useNavigate();
+  useNewPedidoNotification();
+  const { pedidosPorPagamento, faturamentoUltimos7Dias, pedidosUltimos7Dias, vendaHoje, faturamentoMedio, faturamentoTotal, vendasTotais } = useDashboardMetrics(empresaId);
+  console.log("Pedidos por pagamento:", pedidosPorPagamento);
+  console.log("Faturamento últimos 7 dias:", faturamentoUltimos7Dias);
+  console.log("Pedidos últimos 7 dias:", pedidosUltimos7Dias);
+  const handleGenerateReport = () => {
+    GenerateReport({ pedidosPorPagamento, faturamentoUltimos7Dias, pedidosUltimos7Dias });
+  };
 
   const apiUrl = utilService.getURlAPI();
 
@@ -28,13 +37,6 @@ function HomePage() {
         console.error(error);
       });
   }, []);
-
-  const { vendasTotais, faturamentoTotal, vendaHoje, faturamentoMedio } =
-    useDashboardMetrics(empresaId);
-
-  let navigate = useNavigate();
-
-  useNewPedidoNotification();
 
   return (
     <div className="h-fit justify-center p-24 bg-white">
@@ -55,10 +57,12 @@ function HomePage() {
             </svg>
           </div>
           <div className="flex flex-col">
-            <span className="flex items-center gap-1 text-xl font-semibold text-green-500">
+            <span className="flex items-center gap-1 text-xl font-bold text-green-500 ">
               Restaurante Aberto
             </span>
-            <span className="text-secondary">Dentro do horário programado</span>
+            <span className="text-secondary font-semibold">
+              Dentro do horário programado
+            </span>
           </div>
         </div>
       </div>
@@ -146,13 +150,12 @@ function HomePage() {
             <button className="mt-4 p-3 bg-red-700 text-white rounded-lg cursor-pointer w-full">
               Fechar agora
             </button>
-
             <button
-              className="mt-4 p-3 bg-green-500 text-white rounded-lg cursor-pointer w-full"
-              onClick={generateReportWithCharts}
-            >
-              Exportar métricas
-            </button>
+          onClick={handleGenerateReport}
+          className="mt-4 p-3 bg-blue-700 text-white rounded-lg cursor-pointer w-full"
+        >
+          Gerar relatório
+          </button>
           </div>
         </div>
 

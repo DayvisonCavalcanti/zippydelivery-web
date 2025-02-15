@@ -130,7 +130,7 @@ function ProfilePage() {
       cnpj: cnpj || "",
       email: email || "",
       cep: cep || "",
-      categoriaId: categoria.id || "",
+      categoriaId: categoria.id,
       tempoEntrega: tempoEntrega || "",
       taxaFrete: taxaFrete || "",
       telefone: telefone || "",
@@ -150,7 +150,7 @@ function ProfilePage() {
 
     let result = profileService.createEmpresa(body, idEmpresa);
 
-    navigate('/home');
+    // navigate('/home');
 
   }
 
@@ -215,9 +215,9 @@ function ProfilePage() {
             dragProps,
           }) => (
             <div>
-              <div className="p-1 flex justify-end bg-gray-100 w-full h-48 rounded-md">
+              <div className="p-1 flex justify-end bg-gray-100 w-full h-64 rounded-md">
                 {imgBanner ?
-                  <img src={imgBanner} className=" w-full h-full" alt="" width="100" /> : <div></div>
+                  <img src={imgBanner} className=" w-full h-full objct-cover"  /> : <div></div>
                 }
                 <span onClick={() => { onImageUpload(); setIsProfile(false) }} className="hover:bg-gray-300 w-fit h-fit rounded-full p-1.5 transition-all">
                   <svg
@@ -298,7 +298,7 @@ function ProfilePage() {
                 <div className="flex flex-col w-full gap-1">
                   <span>cnpj</span>
                   <input
-                    value={cnpj}
+                    value={cnpj === "00000000000000" ? "" : cnpj}
                     onChange={(e) => setCnpj(e.target.value)}
                     placeholder="cnpj da sua loja"
                     className="form-input"
@@ -322,20 +322,24 @@ function ProfilePage() {
                 <div className="flex flex-col w-full gap-1">
                   <label htmlFor="categoria">Categoria</label>
                   <select
-                    id="categoria"
-                    value={categoria}
-                    onChange={(e) => setCategoria(e.target.value)}
-                    className="form-input"
-                  >
-                    <option value="" disabled>
-                      Selecione uma categoria
-                    </option>
-                    {(categorias || []).map((cat) => (
-                      <option key={cat.id} value={cat.id}>
-                        {cat.descricao}
-                      </option>
-                    ))}
-                  </select>
+  id="categoria"
+  value={categoria}
+  onChange={(e) => {
+    console.log("Valor selecionado:", e.target.value); // Verificar se o valor correto está vindo
+    setCategoria(e.target.value);
+  }}
+  className="form-input"
+>
+  <option value="" disabled>
+    Selecione uma categoria
+  </option>
+  {(categorias || []).map((cat) => (
+    <option key={cat.id} value={cat.id}>
+      {cat.descricao}
+    </option>
+  ))}
+</select>
+
                 </div>
               </div>
             </div>
@@ -429,10 +433,10 @@ function ProfilePage() {
             {/* Form rows*/}
             <div className="flex flex-col gap-4">
               <div className="flex gap-4">
-                <div className="flex flex-col w-3/4 gap-1">
+                {/* <div className="flex flex-col w-3/4 gap-1">
                   <span>Cidade para entrega</span>
                   <input className="form-input" type="text" />
-                </div>
+                </div> */}
                 <div className="flex flex-col w-1/4 gap-1">
                   <span>Taxa de frete</span>
                   <input

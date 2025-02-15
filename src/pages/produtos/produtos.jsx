@@ -9,6 +9,7 @@ import { storage } from '../../firebase';
 import utilService from '../../utilService';
 import ImageUploading from 'react-images-uploading';
 import useNewPedidoNotification from '../../hooks/UseNewPedidoNotification';
+import useCompanyId from '../../hooks/UseCompanyId';
 
 export default function ProdutoRegister() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function ProdutoRegister() {
   const [preco, setPreco] = useState();
   const [categoria, setCategoria] = useState();
   const [descricao, setDescricao] = useState();
+  const empresaId = useCompanyId();
 
   const [categoriaDescricao, setCategoriaDescricao] = useState();
   const [imgProduct, setImgProduct] = React.useState(null);
@@ -58,7 +60,7 @@ export default function ProdutoRegister() {
 
     let body = {
       categoriaId: categoria,
-      empresaId: localStorage.getItem('id'),
+      empresaId: empresaId,
       titulo: titulo,
       imagem: imgProduct || "",
       descricao: descricao,
@@ -75,11 +77,13 @@ export default function ProdutoRegister() {
       } else {
         await axios.post(`${utilService.getURlAPI()}/produto`, body, header)
           .then((response) => {
+            console.log("BODY", body);
             navigate('/menu-manager');
             console.log(response);
           });
       }
     } catch (error) {
+      console.log("BODY", body);
       console.error('Erro ao enviar imagem:', error);
     }
   };
